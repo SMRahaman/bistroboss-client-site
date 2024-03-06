@@ -25,7 +25,7 @@ const NavBar = () => {
       }
     >
       <div className="max-w-7xl mx-auto ">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between px-12">
           <div>
             <span className="uppercase text-xl font-bold font-cinzel">
               Bistro Boss<br></br>
@@ -35,7 +35,7 @@ const NavBar = () => {
           <div>
             <ul className="flex gap-3 uppercase font-inter">
               <li>
-                <Link to="/home">Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <Link to="/contact-us">Contact US</Link>

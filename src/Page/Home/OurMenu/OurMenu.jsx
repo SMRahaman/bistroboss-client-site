@@ -1,7 +1,7 @@
 import React from "react";
 import useMenuHook from "../../../Hook/MenuHook/useMenuHook";
 import MenuItem from "../../../Shared/MenuItem/MenuItem";
-import Button from "../../../Shared/ShareButton/ShareButton";
+import CommonButton from "../../../Shared/CommonButton/CommonButton";
 
 const OurMenu = () => {
   const data = useMenuHook();
@@ -15,7 +15,7 @@ const OurMenu = () => {
           <MenuItem key={item._id} item={item}></MenuItem>
         ))}
       </div>
-      <Button btnName="View all Button"></Button>
+      <CommonButton btnName={"View All Menu"}></CommonButton>
     </div>
   );
 };

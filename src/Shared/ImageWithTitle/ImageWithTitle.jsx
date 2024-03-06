@@ -15,11 +15,11 @@ const ImageWithTitle = ({ bgImage, title, subTitle }) => {
         padding: "100px ",
       }}
     >
-      <div className="max-w-3xl mx-auto bg-white px-16 py-12">
-        <h3 className="font-Cinzel text-5xl text-[#151515] text-center mb-2">
+      <div className="max-w-3xl mx-auto bg-black bg-opacity-55 px-16 py-12">
+        <h3 className="font-Cinzel uppercase text-5xl text-white text-center mb-2">
           {title}
         </h3>
-        <p className="font-intra text-[14px] text-[#151515] text-center">
+        <p className="font-intra text-[14px] text-white text-center">
           {subTitle}
         </p>
       </div>

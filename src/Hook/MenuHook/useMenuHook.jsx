@@ -9,7 +9,7 @@ const useMenuHook = () => {
       setMenus(res.data);
       setLoader(false);
     });
-  }, [menus]);
+  }, []);
   return [menus, loader];
 };
 
