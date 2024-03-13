@@ -22,7 +22,10 @@ const Salad = () => {
           <MenuItem key={item._id} item={item}></MenuItem>
         ))}
       </div>
-      <CommonButton btnName={"Order your favourite Food"}></CommonButton>
+      <CommonButton
+        title={"salad"}
+        btnName={"Order your favourite Food"}
+      ></CommonButton>
     </div>
   );
 };

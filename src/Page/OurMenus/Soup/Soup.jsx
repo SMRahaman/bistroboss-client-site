@@ -23,7 +23,10 @@ const Soup = () => {
         ))}
       </div>
       <div className="pb-28">
-        <CommonButton btnName={"Order your favourite Food"}></CommonButton>
+        <CommonButton
+          title={"soup"}
+          btnName={"Order your favourite Food"}
+        ></CommonButton>
       </div>
     </div>
   );

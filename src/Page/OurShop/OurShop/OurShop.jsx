@@ -4,10 +4,14 @@ import "react-tabs/style/react-tabs.css";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import useMenuHook from "../../../Hook/MenuHook/useMenuHook";
 import OrderTab from "../OrderTab/OrderTab";
+import { useParams } from "react-router-dom";
 
 const OurShop = () => {
-  const [tabIndex, setTabIndex] = useState(0);
-  const [active, setActive] = useState(false);
+  const categories = ["salad", "pizza", "soup", "drinks", "dessert"];
+  const { category } = useParams();
+  const intialIndex = categories.indexOf(category);
+  const [tabIndex, setTabIndex] = useState(intialIndex);
+  // const [active, setActive] = useState(false);
   const data = useMenuHook();
   const desserts = data[0].filter((dessert) => dessert.category === "dessert");
   const pizzas = data[0].filter((pizza) => pizza.category === "pizza");
@@ -21,15 +25,15 @@ const OurShop = () => {
         <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
           <TabList style={{ marginBottom: "40px" }}>
             <Tab style={{ background: "green", color: "white" }}>Salad</Tab>
-            <Tab style={{ background: "green", color: "white" }}>Drinks</Tab>
-            <Tab style={{ background: "green", color: "white" }}>Soup</Tab>
             <Tab style={{ background: "green", color: "white" }}>Pizza</Tab>
+            <Tab style={{ background: "green", color: "white" }}>Soup</Tab>
+            <Tab style={{ background: "green", color: "white" }}>Drinks</Tab>
             <Tab style={{ background: "green", color: "white" }}>Dessert</Tab>
           </TabList>
           <TabPanel>{<OrderTab items={salads}></OrderTab>}</TabPanel>
-          <TabPanel>{<OrderTab items={drinks}></OrderTab>}</TabPanel>
-          <TabPanel>{<OrderTab items={soups}></OrderTab>}</TabPanel>
           <TabPanel>{<OrderTab items={pizzas}></OrderTab>}</TabPanel>
+          <TabPanel>{<OrderTab items={soups}></OrderTab>}</TabPanel>
+          <TabPanel>{<OrderTab items={drinks}></OrderTab>}</TabPanel>
           <TabPanel>{<OrderTab items={desserts}></OrderTab>}</TabPanel>
         </Tabs>
       </div>

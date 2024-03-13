@@ -4,6 +4,7 @@ import ImageWithTitel from "../../../Shared/ImageWithTitle/ImageWithTitle";
 import MenuItem from "../../../Shared/MenuItem/MenuItem";
 import useMenuHook from "../../../Hook/MenuHook/useMenuHook";
 import CommonButton from "../../../Shared/CommonButton/CommonButton";
+import { Link } from "react-router-dom";
 const Desserts = () => {
   const data = useMenuHook();
   const desserts = data[0].filter((dessert) => dessert.category === "dessert");
@@ -22,7 +23,11 @@ const Desserts = () => {
           <MenuItem key={item._id} item={item}></MenuItem>
         ))}
       </div>
-      <CommonButton btnName={"Order your favourite Food"}></CommonButton>
+
+      <CommonButton
+        title={"dessert"}
+        btnName={"Order your favourite Food"}
+      ></CommonButton>
     </div>
   );
 };
