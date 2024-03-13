@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import bgImage from "../../assets/reservation/wood-grain-pattern-gray1x.png";
 import loginImage from "../../assets/others/authentication2.png";
+import { useForm } from "react-hook-form";
+import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
 
 const Register = () => {
-  const registrationHandler = () => {
-    e.preventDefault();
-    
+  const { createAccount } = useContext(AuthContex);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const registrationHandler = (data) => {
+    createAccount(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <div
@@ -23,7 +35,10 @@ const Register = () => {
           <div className="w-1/2 mx-auto">
             <img src={loginImage} alt="" />
           </div>
-          <form className="flex flex-col gap-5 w-1/2 mx-auto">
+          <form
+            onSubmit={handleSubmit(registrationHandler)}
+            className="flex flex-col gap-5 w-1/2 mx-auto"
+          >
             <div>
               <h3 className="text-[40px] font-bold">Sign Up</h3>
             </div>
@@ -32,33 +47,66 @@ const Register = () => {
                 Name
               </label>
               <input
+                {...register("name", {
+                  required: true,
+                })}
                 placeholder="Enter your name"
                 type="text"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
+              {errors.name?.type === "required" && (
+                <p className="text-red-700 text-xs" role="alert">
+                  Name is required
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <label className="font-bold" htmlFor="">
                 Email
               </label>
               <input
+                {...register("email", {
+                  required: true,
+                })}
                 placeholder="example@gmail.com"
                 type="email"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
+              {errors.email?.type === "required" && (
+                <p className="text-red-700 text-xs" role="alert">
+                  Email is required
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <label className="font-bold" htmlFor="">
                 Password
               </label>
               <input
+                {...register("password", {
+                  required: true,
+                  maxLength: 6,
+                  pattern:
+                    /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/,
+                })}
                 placeholder="*************"
                 type="password"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
+              {errors.password?.type === "required" && (
+                <ul className="text-red-700 text-xs" role="alert">
+                  <li> Password mustbe length at least 6</li>
+                  <li> Password mustbe length at least 6</li>
+                  <li> Password mustbe length at least 6</li>
+                  <li> Password mustbe length at least 6</li>
+                </ul>
+              )}
             </div>
             <div className="mt-5">
-              <button className="w-[450px] text-lg font-bold text-white h-[45px] bg-green-600">
+              <button
+                type="submit"
+                className="w-[450px] text-lg font-bold text-white h-[45px] bg-green-600"
+              >
                 Register
               </button>
             </div>

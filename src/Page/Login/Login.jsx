@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import bgImage from "../../assets/reservation/wood-grain-pattern-gray1x.png";
 import loginImage from "../../assets/others/authentication2.png";
 import {
@@ -6,19 +6,30 @@ import {
   loadCaptchaEnginge,
   validateCaptcha,
 } from "react-simple-captcha";
+import { useForm } from "react-hook-form";
+import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
+import toast from "react-hot-toast";
 const Login = () => {
+  const { loginAccount } = useContext(AuthContex);
   const [captcha, setCapcha] = useState("");
-  const [message, setMessage] = useState("");
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
-  const loginHandler = () => {
+  const loginHandler = (data) => {
     if (validateCaptcha(captcha) === true) {
-        setMessage('');
+      loginAccount(data.email, data.password)
+        .then((result) => {
+          const user = result.user;
+          console.log(user);
+        })
+        .catch((error) => console.log(error));
     } else {
-      alert;
+      toast.success("Your captcha is worng", {
+        position: "bottom-right",
+      });
     }
   };
 
@@ -39,7 +50,7 @@ const Login = () => {
             <img src={loginImage} alt="" />
           </div>
           <form
-            onSubmit={loginHandler}
+            onSubmit={handleSubmit(loginHandler)}
             className="flex flex-col gap-5 w-1/2 mx-auto"
           >
             <div>
@@ -50,6 +61,7 @@ const Login = () => {
                 Email
               </label>
               <input
+                {...register("email")}
                 placeholder="example@gmail.com"
                 type="email"
                 className="w-[450px] h-[45px] text-lg px-2"
@@ -60,6 +72,7 @@ const Login = () => {
                 Password
               </label>
               <input
+                {...register("password")}
                 placeholder="*************"
                 type="password"
                 className="w-[450px] h-[45px] text-lg px-2"
@@ -85,12 +98,9 @@ const Login = () => {
             </div>
             <div className="mt-5">
               <button
-                // disabled={disable ? "false" : "true"}
                 type="submit"
                 className={
-                  disable
-                    ? "w-[450px] text-lg font-bold text-white h-[45px] bg-green-600"
-                    : "w-[450px] text-lg font-bold text-white h-[45px] bg-blue-600"
+                  "w-[450px] text-lg font-bold text-white h-[45px] bg-green-600"
                 }
               >
                 Login
