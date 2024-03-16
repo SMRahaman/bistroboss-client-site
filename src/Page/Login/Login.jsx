@@ -12,7 +12,11 @@ import toast from "react-hot-toast";
 const Login = () => {
   const { loginAccount } = useContext(AuthContex);
   const [captcha, setCapcha] = useState("");
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -61,22 +65,32 @@ const Login = () => {
                 Email
               </label>
               <input
-                {...register("email")}
+                {...register("email", { required: true })}
                 placeholder="example@gmail.com"
                 type="email"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
+              {errors.email?.type === "required" && (
+                <p className="text-red-700 text-xs" role="alert">
+                  Email is required
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <label className="font-bold" htmlFor="">
                 Password
               </label>
               <input
-                {...register("password")}
+                {...register("password", { required: true })}
                 placeholder="*************"
                 type="password"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
+              {errors.password?.type === "required" && (
+                <p className="text-red-700 text-xs" role="alert">
+                  Password is required
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <label className="font-bold" htmlFor="">
@@ -84,6 +98,7 @@ const Login = () => {
               </label>
               <div className="flex gap-3">
                 <input
+                  {...register("captcha", { required: true })}
                   onChange={(e) => setCapcha(e.target.value)}
                   placeholder="Type captcha here"
                   type="text"
@@ -95,6 +110,11 @@ const Login = () => {
                   </div>
                 </div>
               </div>
+              {errors.captcha?.type === "required" && (
+                <p className="text-red-700 text-xs" role="alert">
+                  Captcha is required
+                </p>
+              )}
             </div>
             <div className="mt-5">
               <button

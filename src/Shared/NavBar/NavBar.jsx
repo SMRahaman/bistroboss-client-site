@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
+import { FaCartPlus } from "react-icons/fa";
 const NavBar = () => {
+  const { user, logout } = useContext(AuthContex);
   const [nav, setNav] = useState(false);
-
+  const logoutHandler = () => {
+    logout();
+  };
   const changeBackground = () => {
     if (window.scrollY > 200) {
       setNav(true);
@@ -33,7 +37,7 @@ const NavBar = () => {
             </span>
           </div>
           <div>
-            <ul className="flex gap-3 uppercase font-inter">
+            <ul className="flex items-center gap-3 uppercase font-inter">
               <li>
                 <Link to="/">Home</Link>
               </li>
@@ -50,7 +54,23 @@ const NavBar = () => {
                 <Link to="/our-shop">Our Shop</Link>
               </li>
               <li>
-                <Link to="/sign-out">Sign Out</Link>
+                <Link to="/cart">
+                  <FaCartPlus className="text-2xl" />
+                </Link>
+              </li>
+              <li>
+                {user ? (
+                  <button
+                    onClick={logoutHandler}
+                    className="uppercase bg-red-700 p-2 rounded-lg"
+                  >
+                    <Link to="/sign-out">Logout</Link>
+                  </button>
+                ) : (
+                  <button className="uppercase bg-red-700 p-2 rounded-lg">
+                    <Link to="/login">Login</Link>
+                  </button>
+                )}
               </li>
             </ul>
           </div>

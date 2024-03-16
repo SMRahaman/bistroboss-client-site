@@ -12,6 +12,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const registrationHandler = (data) => {
+    console.log(data);
     createAccount(data.email, data.password)
       .then((result) => {
         const user = result.user;
@@ -85,7 +86,7 @@ const Register = () => {
               <input
                 {...register("password", {
                   required: true,
-                  maxLength: 6,
+                  minLength: 6,
                   pattern:
                     /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/,
                 })}
@@ -93,12 +94,13 @@ const Register = () => {
                 type="password"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
-              {errors.password?.type === "required" && (
-                <ul className="text-red-700 text-xs" role="alert">
-                  <li> Password mustbe length at least 6</li>
-                  <li> Password mustbe length at least 6</li>
-                  <li> Password mustbe length at least 6</li>
-                  <li> Password mustbe length at least 6</li>
+              {errors.password?.type === "pattern" && (
+                <ul className="text-red-700 text-xs " role="alert">
+                  <li> Password length at least 6</li>
+                  <li> At least one uppercase character</li>
+                  <li> At least one lowercase character</li>
+                  <li> At least one special character</li>
+                  <li> At least one number</li>
                 </ul>
               )}
             </div>
