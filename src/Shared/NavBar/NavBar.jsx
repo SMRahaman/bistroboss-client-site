@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
 import { FaCartPlus } from "react-icons/fa";
 const NavBar = () => {
   const { user, logout } = useContext(AuthContex);
+  console.log(user);
   const [nav, setNav] = useState(false);
+  const navigate = useNavigate();
   const logoutHandler = () => {
     logout();
+    navigate("/");
   };
   const changeBackground = () => {
     if (window.scrollY > 200) {
@@ -37,7 +40,7 @@ const NavBar = () => {
             </span>
           </div>
           <div>
-            <ul className="flex items-center gap-3 uppercase font-inter">
+            <ul className="flex items-center gap-5 uppercase font-inter">
               <li>
                 <Link to="/">Home</Link>
               </li>
@@ -53,10 +56,20 @@ const NavBar = () => {
               <li>
                 <Link to="/our-shop">Our Shop</Link>
               </li>
-              <li>
+              <li className="relative">
                 <Link to="/cart">
-                  <FaCartPlus className="text-2xl" />
+                  <FaCartPlus className="text-2xl relative" />
+                  <div className="absolute top-[-18px] right-2">
+                    <span className="w-8 text-xs  h-8 bg-red-700 text-white p-2 rounded-full">
+                      00
+                    </span>
+                  </div>
                 </Link>
+              </li>
+              <li>
+                <span className="text-green-700 uppercase font-bold">
+                  {user?.displayName}
+                </span>
               </li>
               <li>
                 {user ? (

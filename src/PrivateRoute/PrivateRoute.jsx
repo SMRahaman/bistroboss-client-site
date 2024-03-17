@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { AuthContex } from "../Components/AuthProvider/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { Grid } from "react-loader-spinner";
+import { Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const { user, loader } = useContext(AuthContex);
   if (user) {
     return children;
   }
-
   if (loader) {
     return (
       <Grid
@@ -22,6 +22,7 @@ const PrivateRoute = ({ children }) => {
       />
     );
   }
+
   return <Navigate to="/login"></Navigate>;
 };
 

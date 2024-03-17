@@ -6,8 +6,8 @@ import useMenuHook from "../../../Hook/MenuHook/useMenuHook";
 import CommonButton from "../../../Shared/CommonButton/CommonButton";
 import { Link } from "react-router-dom";
 const Desserts = () => {
-  const data = useMenuHook();
-  const desserts = data[0].filter((dessert) => dessert.category === "dessert");
+  const [data] = useMenuHook();
+  const desserts = data.filter((dessert) => dessert.category === "dessert");
   const countDesserts = desserts.slice(0, 6);
   return (
     <div>

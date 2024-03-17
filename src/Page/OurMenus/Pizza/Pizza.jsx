@@ -5,8 +5,8 @@ import MenuItem from "../../../Shared/MenuItem/MenuItem";
 import useMenuHook from "../../../Hook/MenuHook/useMenuHook";
 import CommonButton from "../../../Shared/CommonButton/CommonButton";
 const Pizza = () => {
-  const data = useMenuHook();
-  const pizzas = data[0].filter((pizza) => pizza.category === "pizza");
+  const [data] = useMenuHook();
+  const pizzas = data.filter((pizza) => pizza.category === "pizza");
   const countpizzs = pizzas.slice(0, 6);
   return (
     <div>

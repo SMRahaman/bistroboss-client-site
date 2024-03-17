@@ -5,8 +5,8 @@ import MenuItem from "../../../Shared/MenuItem/MenuItem";
 import useMenuHook from "../../../Hook/MenuHook/useMenuHook";
 import CommonButton from "../../../Shared/CommonButton/CommonButton";
 const Salad = () => {
-  const data = useMenuHook();
-  const salads = data[0].filter((salad) => salad.category === "salad");
+  const [data] = useMenuHook();
+  const salads = data.filter((salad) => salad.category === "salad");
   const countsalad = salads.slice(0, 6);
   return (
     <div>

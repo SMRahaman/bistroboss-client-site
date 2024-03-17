@@ -3,6 +3,8 @@ import bgImage from "../../assets/reservation/wood-grain-pattern-gray1x.png";
 import loginImage from "../../assets/others/authentication2.png";
 import { useForm } from "react-hook-form";
 import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
+import { updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const { createAccount } = useContext(AuthContex);
@@ -12,11 +14,20 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const registrationHandler = (data) => {
-    console.log(data);
     createAccount(data.email, data.password)
       .then((result) => {
         const user = result.user;
         console.log(user);
+        updateProfile(user, {
+          displayName: data.name,
+        });
+        if (user) {
+          Swal.fire({
+            title: "Congratulation!",
+            text: "Your registration successfully",
+            icon: "success",
+          });
+        }
       })
       .catch((error) => console.log(error));
   };

@@ -4,8 +4,8 @@ import MenuItem from "../../../Shared/MenuItem/MenuItem";
 import CommonButton from "../../../Shared/CommonButton/CommonButton";
 
 const OurMenu = () => {
-  const data = useMenuHook();
-  const ourMenu = data[0].slice(0, 6);
+  const [data] = useMenuHook();
+  const ourMenu = data.slice(0, 6);
   console.log(ourMenu);
 
   return (

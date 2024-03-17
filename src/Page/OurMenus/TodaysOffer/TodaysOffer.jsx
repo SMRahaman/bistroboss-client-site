@@ -5,8 +5,8 @@ import MenuItem from "../../../Shared/MenuItem/MenuItem";
 import CommonButton from "../../../Shared/CommonButton/CommonButton";
 
 const TodaysOffer = () => {
-  const data = useMenuHook();
-  const todaysOffer = data[0].filter((offer) => offer.category === "offered");
+  const [data] = useMenuHook();
+  const todaysOffer = data.filter((offer) => offer.category === "offered");
   const countTodaysOffer = todaysOffer.slice(0, 10);
   return (
     <div>

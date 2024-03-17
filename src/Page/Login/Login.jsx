@@ -9,9 +9,12 @@ import {
 import { useForm } from "react-hook-form";
 import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
 const Login = () => {
   const { loginAccount } = useContext(AuthContex);
   const [captcha, setCapcha] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -28,6 +31,9 @@ const Login = () => {
         .then((result) => {
           const user = result.user;
           console.log(user);
+          if (location) {
+            navigate(location.state ? location.state : "/");
+          }
         })
         .catch((error) => console.log(error));
     } else {

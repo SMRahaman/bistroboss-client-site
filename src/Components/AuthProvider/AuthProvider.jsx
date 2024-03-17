@@ -11,7 +11,7 @@ const auth = getAuth(app);
 export const AuthContex = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
-  const [loder, setLoader] = useState(true);
+  const [loader, setLoader] = useState(true);
   const createAccount = (email, password) => {
     setLoader(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -31,11 +31,13 @@ const AuthProvider = ({ children }) => {
         setUser(currentUser);
         setLoader(false);
       }
-      return unsubcribe();
+      return () => {
+        unsubcribe;
+      };
     });
   }, []);
 
-  const authValue = { createAccount, loginAccount, logout, user };
+  const authValue = { createAccount, loginAccount, logout, user, loader };
   return (
     <div>
       <AuthContex.Provider value={authValue}>{children}</AuthContex.Provider>
