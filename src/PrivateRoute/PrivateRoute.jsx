@@ -1,29 +1,32 @@
 import React, { useContext } from "react";
 import { AuthContex } from "../Components/AuthProvider/AuthProvider";
-import { Grid } from "react-loader-spinner";
 import { Navigate, useLocation } from "react-router-dom";
+import { Blocks } from "react-loader-spinner";
 
 const PrivateRoute = ({ children }) => {
   const { user, loader } = useContext(AuthContex);
+  const location = useLocation();
   if (user) {
     return children;
   }
   if (loader) {
     return (
-      <Grid
-        visible={true}
+      <Blocks
         height="80"
         width="80"
         color="#4fa94d"
-        ariaLabel="grid-loading"
-        radius="12.5"
+        ariaLabel="blocks-loading"
         wrapperStyle={{}}
-        wrapperClass="grid-wrapper"
+        wrapperClass="blocks-wrapper"
+        visible={true}
       />
     );
   }
-
-  return <Navigate to="/login"></Navigate>;
+  return (
+    <div>
+      <Navigate state={location.pathname} to="/login"></Navigate>
+    </div>
+  );
 };
 
 export default PrivateRoute;

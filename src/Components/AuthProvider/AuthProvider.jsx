@@ -10,7 +10,7 @@ import {
 const auth = getAuth(app);
 export const AuthContex = createContext(null);
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState("");
   const [loader, setLoader] = useState(true);
   const createAccount = (email, password) => {
     setLoader(true);
@@ -26,15 +26,15 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         setLoader(false);
       }
-      return () => {
-        unsubcribe;
-      };
     });
+    return () => {
+      unsubscribe;
+    };
   }, []);
 
   const authValue = { createAccount, loginAccount, logout, user, loader };

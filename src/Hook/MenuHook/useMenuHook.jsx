@@ -10,7 +10,7 @@ const useMenuHook = () => {
       setLoader(false);
     });
   }, []);
-  return [menus, loader];
+  return [menus];
 };
 
 export default useMenuHook;

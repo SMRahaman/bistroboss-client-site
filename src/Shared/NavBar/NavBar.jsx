@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
 import { FaCartPlus } from "react-icons/fa";
+import useCartHook from "../../Hook/CartHook/useCartHook";
 const NavBar = () => {
   const { user, logout } = useContext(AuthContex);
+  const [cart] = useCartHook();
   console.log(user);
   const [nav, setNav] = useState(false);
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ const NavBar = () => {
                   <FaCartPlus className="text-2xl relative" />
                   <div className="absolute top-[-18px] right-2">
                     <span className="w-8 text-xs  h-8 bg-red-700 text-white p-2 rounded-full">
-                      00
+                      {cart.length}
                     </span>
                   </div>
                 </Link>
