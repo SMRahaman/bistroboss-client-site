@@ -1,43 +1,56 @@
 import React, { useState } from "react";
 import useCartHook from "../../Hook/CartHook/useCartHook";
-import { FaMinus, FaPlus } from "react-icons/fa";
-
+import CartCard from "../../Components/CartCard/CartCard";
 const Cart = () => {
-  const [cart, refetch] = useCartHook();
-  const [count, setCount] = useState(0);
-  console.log(cart);
+  const [cart, isLoading, refetch] = useCartHook();
+  const [updateCart, setUpdateCart] = useState(cart);
+  console.log(updateCart);
   return (
-    <div>
-      <div className="max-w-xl">
-        {cart.map((cart) => (
-          <div className="flex items-center gap-5">
-            <div className="flex gap-5 items-center">
-              <img className="w-24 h-24" src={cart.image} alt="" />
-              <span>{cart.itemName}</span>
+    <div className="pb-24 pt-32">
+      <div className="flex justify-around">
+        <div className="max-w-xl w-full">
+          <div className="pb-3">
+            <p className="text-2xl text-center font-bold uppercase">
+              Shopping Cart
+            </p>
+          </div>
+          {updateCart.map((item) => (
+            <CartCard
+              loader={isLoading}
+              updateCart={updateCart}
+              refetch={refetch}
+              key={item._id}
+              setUpdateCart={setUpdateCart}
+              item={item}
+            ></CartCard>
+          ))}
+        </div>
+        <div className="max-w-md w-full">
+          <div className="bg-white shadow-lg py-12">
+            <p className="text-2xl font-bold text-center mb-3 uppercase">
+              Order summery
+            </p>
+            <div className="px-5 space-y-2">
+              <div className="flex justify-between">
+                <p>Sub Total</p>
+                <p>$0</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Shipping Cost</p>
+                <p>$0</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Total</p>
+                <p>$0</p>
+              </div>
             </div>
-            <div>
-              <span>{cart.price}</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <button onClick={() => setCount(count - 1)}>
-                <FaMinus />
-              </button>
-              <input
-                value={count}
-                className=" text-center w-12 border border-red-700 "
-                type="text"
-                name=""
-                id=""
-              />
-              <button onClick={() => setCount(count + 1)}>
-                <FaPlus />
+            <div className="text-center mt-2">
+              <button className="w-[90%] bg-red-700 text-white py-2">
+                Check Out
               </button>
             </div>
           </div>
-        ))}
-      </div>
-      <div className="max-w-md">
-        <p>Order summery</p>
+        </div>
       </div>
     </div>
   );

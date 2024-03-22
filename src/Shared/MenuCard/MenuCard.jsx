@@ -8,13 +8,14 @@ import useCartHook from "../../Hook/CartHook/useCartHook";
 
 const MenuCard = ({ card }) => {
   const { user } = useContext(AuthContex);
-  const [refetch] = useCartHook();
+  const [, refetch] = useCartHook();
   const location = useLocation();
   const navigate = useNavigate();
   const addToCartHandler = (item) => {
     if (user) {
       axios
         .post("http://localhost:5000/api/cart", {
+          itemId: item._id,
           itemName: item.name,
           recipe: item.recipe,
           image: item.image,
@@ -22,6 +23,7 @@ const MenuCard = ({ card }) => {
           price: item.price,
           email: user.email,
           userId: user.uid,
+          itemQuantity: 1,
         })
         .then((res) => {
           console.log(res.data);
@@ -29,8 +31,8 @@ const MenuCard = ({ card }) => {
             toast.success("Cart added successfully", {
               position: "top-right",
             });
-            refetch();
           }
+          refetch();
         });
     } else {
       Swal.fire({
