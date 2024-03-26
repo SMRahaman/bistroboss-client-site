@@ -1,14 +1,17 @@
 import React, { useContext, useState } from "react";
-import useCartHook from "../../Hook/CartHook/useCartHook";
-import CartCard from "../../Components/CartCard/CartCard";
+import useCartHook from "../../../Hook/CartHook/useCartHook";
+import CartCard from "../../../Components/CartCard/CartCard";
 import axios from "axios";
-import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
+import { AuthContex } from "../../../Components/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import OrderSummery from "../Order Summery/OrderSummery";
 const Cart = () => {
   const { user } = useContext(AuthContex);
   const [cart, isLoading, refetch] = useCartHook();
-  const [shippingCost, setShippingCost] = useState("");
+  const [shippingCost, setShippingCost] = useState();
   console.log(cart);
+
   const subTotal = cart.reduce(
     (acc, total) =>
       Number(
@@ -17,6 +20,10 @@ const Cart = () => {
         ).toFixed(2)
       ),
     0
+  );
+
+  const total = Number(
+    parseFloat(parseInt(shippingCost) + subTotal).toFixed(2)
   );
 
   const allCartDeleteHandler = (uid) => {
@@ -78,49 +85,12 @@ const Cart = () => {
           </div>
         </div>
         <div className="max-w-md w-full">
-          <div className="bg-white shadow-lg py-12">
-            <p className="text-2xl font-bold text-center mb-3 uppercase">
-              Order summery
-            </p>
-            <div className="px-5 space-y-2">
-              <div className="flex justify-between">
-                <p>Sub Total</p>
-                <p>${subTotal}</p>
-              </div>
-              <div className="flex justify-between">
-                <p>Shipping Cost</p>
-                <div className="flex-col items-end">
-                  <div className="flex gap-2 items-center justify-end">
-                    <span>Inside Dhaka</span>
-                    <input
-                      onChange={(e) => console.log(e.target.value)}
-                      value="inSideDhaka"
-                      type="radio"
-                    />
-                    <div>$50</div>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <span>Outside Dhaka</span>
-                    <input
-                      onChange={(e) => console.log(e.target.value)}
-                      value="outSideDhaka"
-                      type="radio"
-                    />
-                    <div>$120</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <p>Total</p>
-                <p>$0</p>
-              </div>
-            </div>
-            <div className="text-center mt-2">
-              <button className="w-[90%] bg-red-700 text-white py-2">
-                Check Out
-              </button>
-            </div>
-          </div>
+          <OrderSummery
+            subTotal={subTotal}
+            total={total}
+            shippingCost={shippingCost}
+            setShippingCost={setShippingCost}
+          ></OrderSummery>
         </div>
       </div>
     </div>

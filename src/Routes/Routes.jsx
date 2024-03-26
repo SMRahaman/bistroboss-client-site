@@ -5,8 +5,9 @@ import OurMenus from "../Page/OurMenus/OurMenus/OurMenus";
 import OurShop from "../Page/OurShop/OurShop/OurShop";
 import Login from "../Page/Login/Login";
 import Register from "../Page/Register/Register";
-import Cart from "../Page/Cart/Cart";
+import Cart from "../Page/Cart/Cart/Cart";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Checkout from "../Page/Checkout/Checkout/Checkout";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
             <Cart></Cart>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/checkout/:uid",
+        element: <Checkout></Checkout>,
       },
     ],
   },
