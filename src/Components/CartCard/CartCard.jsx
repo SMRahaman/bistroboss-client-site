@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";

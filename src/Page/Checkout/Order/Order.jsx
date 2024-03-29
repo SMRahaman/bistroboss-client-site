@@ -1,6 +1,6 @@
 import React from "react";
 
-const Order = ({ item, subTotal, tax, total }) => {
+const Order = ({ item }) => {
   const { image, itemName, itemQuantity, totalPrice, price } = item;
   return (
     <div className="px-5 mb-5">
