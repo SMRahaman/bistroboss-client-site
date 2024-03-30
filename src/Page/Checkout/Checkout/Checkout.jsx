@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import Order from "../Order/Order";
+import Order from "../CartOrder/CartOrder";
 import useCartHook from "../../../Hook/CartHook/useCartHook";
 import { useForm } from "react-hook-form";
 import { AuthContex } from "../../../Components/AuthProvider/AuthProvider";
 import qrcode from "../../../assets/contact/qr.png";
 import axios from "axios";
+import toast from "react-hot-toast";
 const Checkout = () => {
   const { user } = useContext(AuthContex);
   const [cart, refetch] = useCartHook();
@@ -14,8 +15,7 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
   const [payment, setPayment] = useState("");
-  const [shippingPrice, setshippingPrice] = useState("");
-  console.log(payment);
+  const [shippingPrice, setshippingPrice] = useState(0);
   const subTotal = cart.reduce(
     (acc, total) =>
       Number(
@@ -27,25 +27,36 @@ const Checkout = () => {
   );
   const tax = Number(parseFloat(subTotal * (7 / 100)).toFixed(2));
   const total = Number(
-    (parseFloat(subTotal + tax) + parseInt(shippingPrice)).toFixed(2)
+    parseFloat(parseFloat(subTotal + tax) + parseInt(shippingPrice)).toFixed(2)
   );
   const orderConfirmHandler = (data, uid) => {
-    if (data) {
-      axios
-        .post("http://localhost:5000/api/order", {
-          data,
-          ProductInfo: cart,
-          paymentMethod: payment,
-          totalPrice: total,
-        })
-        .then((res) => console.log(res.data));
-    }
-    if (uid) {
-      axios
-        .delete(`http://localhost:5000/api/cart?userId=${uid}`)
-        .then((res) => console.log(res.data));
+    if (cart.length === 0) {
+      toast.error("Your cart is Empty");
+    } else {
+      if (payment == "") {
+        toast.error("please select payment method");
+      } else if (shippingPrice == "") {
+        toast.error("Please select shipping price");
+      } else {
+        if (data) {
+          axios
+            .post("http://localhost:5000/api/order", {
+              data,
+              ProductInfo: cart,
+              paymentMethod: payment,
+              totalPrice: total,
+            })
+            .then((res) => console.log(res.data));
+        }
+        if (uid) {
+          axios
+            .delete(`http://localhost:5000/api/cart?userId=${uid}`)
+            .then((res) => console.log(res.data));
+        }
+      }
     }
   };
+
   return (
     <div className="pt-28 pb-12">
       <div className="flex">
@@ -108,7 +119,7 @@ const Checkout = () => {
                 <textarea
                   {...register("shippingAddress", { required: true })}
                   placeholder="Enter shipping address "
-                  className="w-full h-[140px] border px-5 py-2"
+                  className="w-full h-[140px] border px py-2"
                   type="text"
                 />
               </div>
@@ -163,30 +174,36 @@ const Checkout = () => {
                   <div className="mt-8">
                     <div className="flex flex-col gap-1 mb-2">
                       <label htmlFor="">Amount:</label>
-                      {payment == "bkash" || "nagad" ? (
+                      {(payment == "bkash" || payment == "nagad") && (
                         <input
-                          {...register("payAmount")}
+                          {...register("payAmount", { required: true })}
                           placeholder="Enter Amount"
                           className="w-1/2 h-[40px] border px-2"
                           type="text"
                         />
-                      ) : (
-                        ""
                       )}
                     </div>
+                    {errors?.payAmount?.type === "required" && (
+                      <p className="text-red-700 text-xs" role="alert">
+                        Amount is required
+                      </p>
+                    )}
                     <div className="flex flex-col gap-1">
                       <label htmlFor="">Transaction ID:</label>
-                      {payment == "bkash" || "nagad" ? (
+                      {(payment == "bkash" || payment == "nagad") && (
                         <input
-                          {...register("transactionId")}
+                          {...register("transactionId", { required: true })}
                           placeholder="Enter Transaction ID"
                           className="w-1/2 h-[40px] border px-2"
                           type="text"
                         />
-                      ) : (
-                        ""
                       )}
                     </div>
+                    {errors?.transactionId?.type === "required" && (
+                      <p className="text-red-700 text-xs" role="alert">
+                        TransactionID is required
+                      </p>
+                    )}
                     <div className="mt-5">
                       <div className={payment == "bkash" ? "block" : "hidden"}>
                         <img className="w-1/4" src={qrcode} alt="" />

@@ -1,14 +1,10 @@
 import axios from "axios";
 import React, { useContext } from "react";
 import { AuthContex } from "../../Components/AuthProvider/AuthProvider";
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
-import useCartHook from "../../Hook/CartHook/useCartHook";
-
-const MenuCard = ({ card }) => {
+const MenuCard = ({ card, refetch }) => {
   const { user } = useContext(AuthContex);
-  const [, refetch] = useCartHook();
   const location = useLocation();
   const navigate = useNavigate();
   const addToCartHandler = (item) => {
@@ -26,13 +22,14 @@ const MenuCard = ({ card }) => {
           itemQuantity: 1,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.insertedId) {
-            toast.success("Cart added successfully", {
-              position: "top-right",
+            Swal.fire({
+              title: "Thank you",
+              text: "Your selected product add to your cart",
+              icon: "success",
             });
+            refetch();
           }
-          refetch();
         });
     } else {
       Swal.fire({

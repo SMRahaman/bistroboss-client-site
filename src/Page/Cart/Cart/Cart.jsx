@@ -86,6 +86,7 @@ const Cart = () => {
         </div>
         <div className="max-w-md w-full">
           <OrderSummery
+            cart={cart}
             subTotal={subTotal}
             total={total}
             shippingCost={shippingCost}

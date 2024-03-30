@@ -1,13 +1,18 @@
 import React, { useContext } from "react";
 import { AuthContex } from "../../../Components/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const OrderSummery = ({ subTotal }) => {
+const OrderSummery = ({ subTotal, cart }) => {
   const { user } = useContext(AuthContex);
   const navigate = useNavigate();
   const checkoutHandler = (uid) => {
-    console.log(uid);
-    navigate(`/checkout/${uid}`);
+    if (cart.length === 0) {
+      toast.error("Please add product your cart");
+      navigate("/our-shop");
+    } else {
+      navigate("/checkout");
+    }
   };
   return (
     <div>

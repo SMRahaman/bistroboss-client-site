@@ -15,19 +15,18 @@ const Login = () => {
   const [captcha, setCapcha] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
-  const loginHandler = (data) => {
+  const loginHandler = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
     if (validateCaptcha(captcha) === true) {
-      loginAccount(data.email, data.password)
+      loginAccount(email, password)
         .then((result) => {
           const user = result.user;
           console.log(user);
@@ -60,7 +59,7 @@ const Login = () => {
             <img src={loginImage} alt="" />
           </div>
           <form
-            onSubmit={handleSubmit(loginHandler)}
+            onSubmit={loginHandler}
             className="flex flex-col gap-5 w-1/2 mx-auto"
           >
             <div>
@@ -71,32 +70,34 @@ const Login = () => {
                 Email
               </label>
               <input
-                {...register("email", { required: true })}
+                // {...register("email", { required: true })}
                 placeholder="example@gmail.com"
+                name="email"
                 type="email"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
-              {errors.email?.type === "required" && (
+              {/* {errors.email?.type === "required" && (
                 <p className="text-red-700 text-xs" role="alert">
                   Email is required
                 </p>
-              )}
+              )} */}
             </div>
             <div className="flex flex-col gap-2">
               <label className="font-bold" htmlFor="">
                 Password
               </label>
               <input
-                {...register("password", { required: true })}
+                // {...register("password", { required: true })}
                 placeholder="*************"
+                name="password"
                 type="password"
                 className="w-[450px] h-[45px] text-lg px-2"
               />
-              {errors.password?.type === "required" && (
+              {/* {errors.password?.type === "required" && (
                 <p className="text-red-700 text-xs" role="alert">
                   Password is required
                 </p>
-              )}
+              )} */}
             </div>
             <div className="flex flex-col gap-2">
               <label className="font-bold" htmlFor="">
@@ -104,7 +105,7 @@ const Login = () => {
               </label>
               <div className="flex gap-3">
                 <input
-                  {...register("captcha", { required: true })}
+                  // {...register("captcha", { required: true })}
                   onChange={(e) => setCapcha(e.target.value)}
                   placeholder="Type captcha here"
                   type="text"
@@ -116,11 +117,11 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              {errors.captcha?.type === "required" && (
+              {/* {errors.captcha?.type === "required" && (
                 <p className="text-red-700 text-xs" role="alert">
                   Captcha is required
                 </p>
-              )}
+              )} */}
             </div>
             <div className="mt-5">
               <button

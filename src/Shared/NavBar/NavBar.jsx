@@ -6,11 +6,11 @@ import useCartHook from "../../Hook/CartHook/useCartHook";
 const NavBar = () => {
   const { user, logout } = useContext(AuthContex);
   const [cart] = useCartHook();
-  console.log(user);
   const [nav, setNav] = useState(false);
   const navigate = useNavigate();
   const logoutHandler = () => {
     logout();
+    console.log(user);
     navigate("/");
   };
   const changeBackground = () => {
@@ -75,16 +75,19 @@ const NavBar = () => {
               </li>
               <li>
                 {user ? (
-                  <button
-                    onClick={logoutHandler}
-                    className="uppercase bg-red-700 p-2 rounded-lg"
-                  >
-                    <Link to="/sign-out">Logout</Link>
-                  </button>
+                  <Link to="/">
+                    <button
+                      onClick={logoutHandler}
+                      className="uppercase bg-red-700 p-2 rounded-lg"
+                    >
+                      Logout
+                    </button>
+                  </Link>
                 ) : (
-                  <button className="uppercase bg-red-700 p-2 rounded-lg">
-                    <Link to="/login">Login</Link>
-                  </button>
+                  <Link to="/login">
+                    <button className="uppercase bg-red-700 p-2 rounded-lg"></button>
+                    Login
+                  </Link>
                 )}
               </li>
             </ul>
